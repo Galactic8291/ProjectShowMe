@@ -1,0 +1,39 @@
+#map {
+	position: relative;
+	height: 500px;
+}
+
+.search-ui {
+	position: absolute;
+	top:150px;
+	right:40px;
+	z-index:1000;
+}
+
+.filter-ui {
+	background:#fff;
+	position:absolute;
+	top:10px;
+	right:10px;
+	z-index:100;
+	padding:10px;
+	border-radius:3px;
+}
+
+table th {
+	padding: 5px;
+}
+
+table td {
+	padding: 10px;
+}
+
+.filter-ui {
+	background:#fff;
+	position:absolute;
+	top:185px;
+	right:35px;
+	z-index:100;
+	padding:10px;
+	border-radius:3px;
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ProjectShowMe</title>
+
+		<!-- Compiled Mapbox Data -->
+		<script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+		<link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
+
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cosmo/bootstrap.min.css">
+
+		<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+		
+		<!-- Mapbox -->
+		<link rel="stylesheet" href="map.css">
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+		<!-- Graphs -->
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+		<script src="construction.js"></script>
+		<script src="retail.js"></script>
+	</head>
+	
+	<body>
+
+		<nav class="navbar navbar-default">
+			<nav class="navbar-header">
+				<div class="countainer-fluid">
+					<a href="#" class="navbar-brand">Project Show Me</a>
+				</div>
+			</nav>
+
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="index.html">Home</a></li>
+					<li><a href="#">Map</a></li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right" style="font-size: 1.5em">
+					<li><a href="https://www.freeenterprise.com/">FreeEnterprise Magazine</a></li>
+				</ul>
+			</div>
+		</nav>
+		
+		<div class="jumbotron">
+			<div class="container-fluid">
+				<div id='map'></div>
+				<nav id='filters' class='filter-ui'>
+					<input type="checkbox"> <strike>Agriculture</strike><br>
+					<input type="checkbox"> <strike>Mining</strike><br>
+					<input type="checkbox"> <strike>Utilities</strike><br>
+					<input type="checkbox" checked> Construction<br>
+					<input type="checkbox"> <strike>Manufacturing</strike><br>
+					<input type="checkbox"> <strike>Wholesale</strike><br>
+					<input type="checkbox"> <strike>Retail</strike><br>
+					<input type="checkbox"> <strike>Transportation</strike><br>
+					<input type="checkbox"> <strike>Information</strike><br>
+					<input type="checkbox"> <strike>Finance</strike><br>
+					<input type="checkbox"> <strike>Real Estate</strike><br>
+					<input type="checkbox"> <strike>Professional Services</strike><br>
+					<input type="checkbox"> <strike>Management</strike><br>
+					<input type="checkbox"> <strike>Support Services</strike><br>
+					<input type="checkbox"> <strike>Education</strike><br>
+					<input type="checkbox"> <strike>Healthcare</strike><br>
+					<input type="checkbox"> <strike>Entertainment</strike><br>
+					<input type="checkbox"> <strike>Food Service</strike><br>
+				</nav>
+				<input id='search' class='search-ui' placeholder='Enter state' />
+			</div>
+		</div>
+
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
+			<div class="modal-dialogue" role="document">
+				<div class="modal-content">
+					<div class="modal-header"><h4 class="modal-title" id="myModalLabel">Marylands Market History</h4></div>
+					<div class="modal-body">
+						
+						<!-- Nav tabs -->
+						<ul class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Market Situation</a></li>
+							<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Established Business By County</a></li>
+							<li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><strike>Areas of Business in County</strike>></a></li>
+						</ul>
+
+						<!-- Tab panes -->
+						<div class="tab-content">
+							<div role="tabpanel" class="tab-pane active" id="home">
+								<div id="container1" style="width: 50%; height: 400px; margin: 0 auto"></div>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="profile">
+								<div id="container" style="width: 50%; height: 400px; margin: 0 auto"></div>
+							</div>
+							<div role="tabpanel" class="tab-pane" id="messages"></div>
+						</div>
+					
+					</div>
+					<div class="modal-footer">
+						<a href="https://twitter.com/intent/tweet?button_hashtag=FreeEnterpriseHack" class="twitter-hashtag-button" data-size="large" data-url="http://freeenterprise.com">Tweet #FreeEnterpriseHack</a>
+						<script>
+							!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+						</script>
+        				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        			</div>
+				</div>
+			</div>
+		</div>
+	</body>
+
+	<script>
+		L.mapbox.accessToken = 'pk.eyJ1Ijoicm1jY2xlbGxhbiIsImEiOiJ5ZTlTUEhJIn0.K39khgQhEOBxVGYPJPr2RA';
+		var map = L.mapbox.map('map', 'rmcclellan.jk05gcji').setView([40, -95], 4);
+
+		$('#my-modal').modal({
+			show: 'false'
+		});
+
+		var constructionLayer = L.mapbox.featureLayer().setGeoJSON(construction);
+
+		constructionLayer.addTo(map);
+
+		constructionLayer.eachLayer(function(layer) { 
+				var content = '<h2>Establishments in ' + layer.feature.properties.state + '<\/h2>' + '<p>' + layer.feature.properties.num + '<br \/><\/p>';
+    			layer.bindPopup(content);
+			});
+
+		$('#search').keyup(search);
+
+		function search() {
+			// get the value of the search input field
+			var searchString = $('#search').val().toLowerCase();
+
+			constructionLayer.setFilter(showState);
+
+			// here we're simply comparing the 'state' property of each marker
+			// to the search string, seeing whether the former contains the latter.
+			function showState(feature) {
+				var choice =  feature.properties.state.toLowerCase().indexOf(searchString) !== -1;
+				return choice;
+			}
+		}
+
+		constructionLayer.addTo(map);
+
+		constructionLayer.on('mouseover', function(e) {
+			e.layer.openPopup();
+		});
+		constructionLayer.on('mouseout', function(e) {
+			e.layer.closePopup();
+		});
+
+		constructionLayer.on('click', function(e) {
+			console.log("This Works Too");
+			$('#myModal').modal('show');
+		});
+	</script>
+</html>
