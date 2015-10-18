@@ -937,14 +937,14 @@ $(function () {
             }
         },
         series: [{
-            name: 'Estbalishments',
+            name: 'Number of Establishments (in thousands)',
             marker: {
                 symbol: 'square'
             },
             data: [13.76, 13.8, 13.98, 14.52, 15.14]
 
         }, {
-            name: 'Employees Paid',
+            name: 'Number of Employees Paid (in thousands)',
             marker: {
                 symbol: 'diamond'
             },
@@ -959,7 +959,7 @@ $(function () {
             type: 'bar'
         },
         title: {
-            text: 'Percentage of Construction Establishments in Each County'
+            text: 'Percentage of Construction Establishments in Each County Within State'
         },
         xAxis: {
             categories: ['Allegany County', 'Anne Arundel County  ', 'Baltimore County', 'Calvert County', 'Caroline County', 'Carroll County', 'Charles County', 'Dorchester County', 'Frederick County', 'Garret County', 'Harford County', 'Howard County', 'Kent County', 'Montgomery County', 'Prince Georges County', 'Queen Annes County', 'St Marys County', 'Somerset County', 'Talbot County', 'Washington County', 'Wicomico County', 'Worchester County','Baltimore City' ]
